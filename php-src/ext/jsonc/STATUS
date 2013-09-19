@@ -1,0 +1,96 @@
+
+=====================================================================
+PHP         : /usr/bin/php 
+PHP_SAPI    : cli
+PHP_VERSION : 5.5.0
+ZEND_VERSION: 2.5.0-dev
+PHP_OS      : Linux - Linux dixsept.famillecollet.com 3.8.13-100.fc17.x86_64 #1 SMP Mon May 13 13:36:17 UTC 2013 x86_64
+INI actual  : /work/GIT/pecl-json-c
+More .INIs  :  
+CWD         : /work/GIT/pecl-json-c
+Extra dirs  : 
+VALGRIND    : Not used
+=====================================================================
+TIME START 2013-06-26 13:33:37
+=====================================================================
+PASS json_decode() tests [tests/001.phpt] 
+PASS json_encode() tests [tests/002.phpt] 
+PASS json_encode() & endless loop - 1 [tests/003.phpt] 
+PASS json_encode() & endless loop - 2 [tests/004.phpt] 
+PASS json_encode() & endless loop - 3 [tests/005.phpt] 
+PASS json_encode() & extended encoding [tests/006.phpt] 
+PASS json_last_error() tests [tests/007-jsonc.phpt] 
+XFAIL json_last_error() tests [tests/007.phpt]   XFAIL REASON: Different parser, so different error codes.
+PASS json_decode() with large integers [tests/008-jsonc.phpt] 
+XFAIL json_decode() with large integers [tests/008.phpt]   XFAIL REASON: Large number always treat as integer.
+PASS JsonIncremantalParser::parse() simple test [tests/009-incrementalparser.phpt] 
+PASS JsonIncremantalParser::parseFile() test [tests/010-incrementalparserfile.phpt] 
+PASS Bug #40503 (json_encode() value corruption on 32bit systems with overflown values) [tests/bug40503.phpt] 
+PASS Bug #41034 (json_encode() ignores null byte started keys in arrays) [tests/bug41034.phpt] 
+PASS Bug #41067 (json_encode() problem with UTF-16 input) [tests/bug41067.phpt] 
+PASS Bug #41403 (json_decode cannot decode floats if localeconv decimal_point is not '.') [tests/bug41403.phpt] 
+PASS Bug #41504 (json_decode() converts empty array keys to "_empty_") [tests/bug41504.phpt] 
+PASS Bug #41567 (json_encode() double conversion is inconsistent with PHP) [tests/bug41567.phpt] 
+PASS Bug #42090 (json_decode causes segmentation fault) [tests/bug42090-jsonc.phpt] 
+XFAIL Bug #42090 (json_decode causes segmentation fault) [tests/bug42090.phpt]   XFAIL REASON: New parser is less strict, produce different result, but don't crash.
+PASS Bug #42785 (Incorrect formatting of double values with non-english locales) [tests/bug42785.phpt] 
+PASS Bug #43941 (json_encode() invalid UTF-8) [tests/bug43941.phpt] 
+PASS Bug #45791 (json_decode() does not handle number 0e0) [tests/bug45791.phpt] 
+PASS Bug #46215 (json_encode mutates its parameter and has some class-specific state) [tests/bug46215.phpt] 
+PASS Bug #46944 (json_encode() doesn't handle 3 byte utf8 correctly) [tests/bug46944.phpt] 
+PASS Bug #47644 (valid large integers are truncated) [tests/bug47644.phpt] 
+PASS bug #53946 (json_encode() with JSON_UNESCAPED_UNICODE) [tests/bug53946.phpt] 
+PASS Bug #54058 (json_last_error() invalid UTF-8 produces wrong error) [tests/bug54058.phpt] 
+PASS Bug #54484 (Empty string in json_decode doesn't reset json_last_error) [tests/bug54484.phpt] 
+PASS Bug #55543 (json_encode() with JSON_NUMERIC_CHECK & numeric string properties) [tests/bug55543.phpt] 
+PASS Bug #61537 (json_encode() incorrectly truncates/discards information) [tests/bug61537.phpt] 
+PASS Bug #61978 (Object recursion not detected for classes that implement JsonSerializable) [tests/bug61978.phpt] 
+PASS FR #62369 (Segfault on json_encode(deeply_nested_array) [tests/bug62369.phpt] 
+PASS json_decode() with max recursion depth [tests/depth.phpt] 
+PASS JSON (http://www.crockford.com/JSON/JSON_checker/test/fail*.json) [tests/fail001-jsonc.phpt] 
+XFAIL JSON (http://www.crockford.com/JSON/JSON_checker/test/fail*.json) [tests/fail001.phpt]   XFAIL REASON: New parser is less strict, produce different result, but don't crash.
+PASS An error is thrown when INF or NaN are encoded [tests/inf_nan_error.phpt] 
+PASS Test json_decode() function : basic functionality [tests/json_decode_basic.phpt] 
+PASS Test json_decode() function : error conditions [tests/json_decode_error.phpt] 
+PASS Test json_encode() function : basic functionality [tests/json_encode_basic.phpt] 
+PASS Test json_encode() function : basic functionality with UTF8 string input [tests/json_encode_basic_utf8.phpt] 
+PASS Test json_encode() function : error conditions [tests/json_encode_error.phpt] 
+PASS Test json_encode() function with numeric flag [tests/json_encode_numeric.phpt] 
+PASS json_encode() with JSON_PRETTY_PRINT [tests/json_encode_pretty_print.phpt] 
+PASS json_decode() tests [tests/json_encode_unescaped_slashes.phpt] 
+PASS json_decode() with comments [tests/jsonp.phpt] 
+SKIP JSON (http://www.crockford.com/JSON/JSON_checker/test/pass1.json) [tests/pass001.1.phpt] reason: this test is for 32bit platform only
+PASS JSON (http://www.crockford.com/JSON/JSON_checker/test/pass1.json) [tests/pass001.1_64bit.phpt] 
+PASS JSON (http://www.crockford.com/JSON/JSON_checker/test/pass1.json) [tests/pass001.phpt] 
+PASS JSON (http://www.crockford.com/JSON/JSON_checker/test/pass2.json) [tests/pass002.phpt] 
+PASS JSON (http://www.crockford.com/JSON/JSON_checker/test/pass3.json) [tests/pass003.phpt] 
+PASS json_encode() Serialization tests [tests/serialize.phpt] 
+PASS An error is thrown when an unsupported type is encoded [tests/unsupported_type_error.phpt] 
+=====================================================================
+TIME END 2013-06-26 13:33:38
+
+=====================================================================
+TEST RESULT SUMMARY
+---------------------------------------------------------------------
+Exts skipped    :    0
+Exts tested     :   17
+---------------------------------------------------------------------
+
+Number of tests :   53                52
+Tests skipped   :    1 (  1.9%) --------
+Tests warned    :    0 (  0.0%) (  0.0%)
+Tests failed    :    0 (  0.0%) (  0.0%)
+Expected fail   :    4 (  7.5%) (  7.7%)
+Tests passed    :   48 ( 90.6%) ( 92.3%)
+---------------------------------------------------------------------
+Time taken      :    1 seconds
+=====================================================================
+
+=====================================================================
+EXPECTED FAILED TEST SUMMARY
+---------------------------------------------------------------------
+json_last_error() tests [tests/007.phpt]  XFAIL REASON: Different parser, so different error codes.
+json_decode() with large integers [tests/008.phpt]  XFAIL REASON: Large number always treat as integer.
+Bug #42090 (json_decode causes segmentation fault) [tests/bug42090.phpt]  XFAIL REASON: New parser is less strict, produce different result, but don't crash.
+JSON (http://www.crockford.com/JSON/JSON_checker/test/fail*.json) [tests/fail001.phpt]  XFAIL REASON: New parser is less strict, produce different result, but don't crash.
+=====================================================================

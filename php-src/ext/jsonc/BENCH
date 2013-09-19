@@ -1,0 +1,14 @@
+
+PHP  Version: 5.5.0-dev
+Json Version: 1.2.1
+
+Count: 131345
+Encode in 0.00839 sec, 518545 bytes
+Decode in 0.03355 sec
+
+PHP  Version: 5.5.0-dev
+Json Version: 1.3.0-dev
+
+Count: 131345
+Encode in 0.00840 sec, 518545 bytes
+Decode in 0.07878 sec

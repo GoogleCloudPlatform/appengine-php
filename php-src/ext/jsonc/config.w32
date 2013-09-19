@@ -1,0 +1,19 @@
+
+ARG_WITH("jsonc", "enable jsonc support", "no");
+
+if (PHP_JSONC != "no") {
+	if (CHECK_HEADER_ADD_INCLUDE('json.h', 'CFLAGS_JSONC', PHP_JSONC + "\\json-c;" + PHP_EXTRA_INCLUDES + "\\json-c") &&
+		CHECK_LIB("json.lib;json_a.lib", "jsonc", PHP_JSONC)) {
+		EXTENSION("jsonc", "json.c");
+
+		AC_DEFINE("HAVE_JSONC", 1, "Have jsonc support");
+		PHP_INSTALL_HEADERS("ext/json", "php_json.h");
+
+		ADD_FLAG("CFLAGS_JSONC", "/D HAVE_LIBJSON");
+		/* Cheat so the ext is 'json' internally, despite the filename is jsonc */
+		ADD_FLAG("CFLAGS_JSONC", "/D JSON_EXPORTS=1 /D COMPILE_DL_JSON");
+	} else {
+		WARNING('jsonc not enabled, headers or libraries not found');
+	}
+}
+

@@ -1,0 +1,23 @@
+// $Id: config.w32 308606 2011-02-23 15:06:07Z pajoye $
+// vim:ft=javascript
+
+ARG_WITH("oauth", "oAuth support", "no");
+
+if (PHP_OAUTH != "no") {
+	if (CHECK_LIB("libcurl_a.lib;libcurl.lib", "oauth", PHP_OAUTH) &&
+			CHECK_HEADER_ADD_INCLUDE("curl/easy.h", "CFLAGS_OAUTH") &&
+			CHECK_LIB("ssleay32.lib", "oauth", PHP_OAUTH) &&
+			CHECK_LIB("libeay32.lib", "oauth", PHP_OAUTH) 
+		&& CHECK_LIB("winmm.lib", "oauth", PHP_OAUTH)
+		&& CHECK_LIB("wldap32.lib", "oauth", PHP_OAUTH)
+		&& (((PHP_ZLIB=="no") && (CHECK_LIB("zlib_a.lib", "oauth", PHP_OAUTH) ||  CHECK_LIB("zlib.lib", "oauth", PHP_OAUTH))) || 
+			(PHP_ZLIB_SHARED && CHECK_LIB("zlib.lib", "oauth", PHP_OAUTH)) || (PHP_ZLIB == "yes" && (!PHP_ZLIB_SHARED)))
+		) {
+		EXTENSION("oauth", "oauth.c provider.c", true);
+		ADD_FLAG("CFLAGS_OAUTH", "/D CURL_STATICLIB");
+		ADD_FLAG("CFLAGS_OAUTH", "/D OAUTH_USE_CURL");
+		ADD_FLAG("LDFLAGS_OAUTH", "/D /FORCE:MULTIPLE ");
+	} else {
+		WARNING("oauth not enabled; libraries and headers not found");
+	}
+}

@@ -1,0 +1,14 @@
+URL: http://us.php.net/get/php-5.4.8.tar.gz/from/this/mirror
+Version: 5.4.8
+License: The PHP License, version 3.01
+License File: LICENSE
+
+Description:
+PHP is an HTML-embedded scripting language. Much of its syntax is borrowed
+from C, Java and Perl with a couple of unique PHP-specific features thrown in.
+The goal of the language is to allow web developers to write dynamically
+generated pages quickly.
+
+Local Modifications:
+- Defined "gae_syslog" in cgi_main.c and php_cli.c for use in the development
+  environment.

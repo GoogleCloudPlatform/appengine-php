@@ -1,0 +1,15 @@
+DONE
+====
+- json_encode
+  https://bugs.php.net/bug.php?id=63588
+- json_decode
+
+TODO
+====
+- run-tests
+- improve decode speed
+
+
+JSON-C upstream waiting pull request
+======
+

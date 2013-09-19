@@ -1,0 +1,40 @@
+1/ Quick installation
+
+Replace the ext/json tree in the php sources:
+
+    tar xf php-5.#.#.tar.bz2
+    tar xf jsonc-1.3.#.tgz
+    rm -rf php-5.#.#/ext/json
+    mv jsonc-1.3.# php-5.#.#/ext/json
+
+build PHP as usual.
+
+
+2/ PECL installation
+
+You need to build PHP without json extension
+using the --disable-json option, then build
+jsonc as every pecl extension:
+
+    tar xf jsonc-1.3.#.tgz
+    cd jsonc-1.3.#
+    $PHP_DIR/bin/phpize
+    ./configure \
+       --with-php-config=$PHP_DIR/bin/php-config
+    make
+
+You can also use the --with-libjson option to use the system
+jsonc-c library instead of the bundled copy.
+
+
+3/ TEST installation
+
+If you need to build both extensions to easily switch from one
+to the others, build PHP with json extension as shared
+using --enable-json=shared.
+
+Build the pecl jsonc extension with --with-jsonc option (the
+module will be renamed to jsonc.so)
+
+Both can be installed, but, only one can be enabled.
+

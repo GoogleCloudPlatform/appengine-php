@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>jsonc</name>
+ <channel>pecl.php.net</channel>
+ <summary>JavaScript Object Notation</summary>
+ <description>
+Support for JSON (JavaScript Object Notation) serialization.
+This is a drop-in alternative to PHP standard json extension.
+ </description>
+ <lead>
+  <name>Remi Collet</name>
+  <user>remi</user>
+  <email>remi@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Omar Kilani</name>
+  <user>omar</user>
+  <email>omar@php.net</email>
+  <active>no</active>
+ </lead>
+ <date>2013-06-12</date>
+ <time>12:50:00</time>
+ <version>
+  <release>1.3.2dev</release>
+  <api>1.3.0</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>stable</api>
+ </stability>
+ <license>PHP 3.01</license>
+ <notes>
+- number must not have leading zeroes (json-c pr #90)
+- string must be double-quoted (json-c PR #94)
+- add JSON_C_BUNDLED and JSON_C_VERSION constants
+ </notes>
+ <contents>
+  <dir name="/">
+   <file name="CREDITS" role="doc" />
+   <file name="LICENSE" role="doc" />
+   <file name="README.md" role="doc" />
+   <file name="INSTALL" role="doc" />
+   <file name="config.m4" role="src" />
+   <file name="json.c" role="src" />
+   <file name="php_json.h" role="src" />
+   <dir name="json-c">
+    <file name="arraylist.c" role="src" />
+    <file name="arraylist.h" role="src" />
+    <file name="AUTHORS" role="src" />
+    <file name="bits.h" role="src" />
+    <file name="ChangeLog" role="src" />
+    <file name="COPYING" role="src" />
+    <file name="debug.c" role="src" />
+    <file name="debug.h" role="src" />
+    <file name="json_config.h" role="src" />
+    <file name="json_c_version.c" role="src" />
+    <file name="json_c_version.h" role="src" />
+    <file name="json.h" role="src" />
+    <file name="json_inttypes.h" role="src" />
+    <file name="json_object.c" role="src" />
+    <file name="json_object.h" role="src" />
+    <file name="json_object_iterator.c" role="src" />
+    <file name="json_object_iterator.h" role="src" />
+    <file name="json_object_private.h" role="src" />
+    <file name="json_tokener.c" role="src" />
+    <file name="json_tokener.h" role="src" />
+    <file name="json_util.c" role="src" />
+    <file name="json_util.h" role="src" />
+    <file name="linkhash.c" role="src" />
+    <file name="linkhash.h" role="src" />
+    <file name="printbuf.c" role="src" />
+    <file name="printbuf.h" role="src" />
+   </dir> <!-- //json-c -->
+   <dir name="tests">
+    <file name="001.phpt" role="test" />
+    <file name="002.phpt" role="test" />
+    <file name="003.phpt" role="test" />
+    <file name="004.phpt" role="test" />
+    <file name="005.phpt" role="test" />
+    <file name="006.phpt" role="test" />
+    <file name="007.phpt" role="test" />
+    <file name="007-jsonc.phpt" role="test" />
+    <file name="008.phpt" role="test" />
+    <file name="008-jsonc.phpt" role="test" />
+    <file name="009-incrementalparser.phpt" role="test" />
+    <file name="010-incrementalparserfile.phpt" role="test" />
+    <file name="bug40503.phpt" role="test" />
+    <file name="bug41034.phpt" role="test" />
+    <file name="bug41067.phpt" role="test" />
+    <file name="bug41403.phpt" role="test" />
+    <file name="bug41504.phpt" role="test" />
+    <file name="bug41567.phpt" role="test" />
+    <file name="bug42090.phpt" role="test" />
+    <file name="bug42090-jsonc.phpt" role="test" />
+    <file name="bug42785.phpt" role="test" />
+    <file name="bug43941.phpt" role="test" />
+    <file name="bug45791.phpt" role="test" />
+    <file name="bug46215.phpt" role="test" />
+    <file name="bug46944.phpt" role="test" />
+    <file name="bug47644.phpt" role="test" />
+    <file name="bug53946.phpt" role="test" />
+    <file name="bug54058.phpt" role="test" />
+    <file name="bug54484.phpt" role="test" />
+    <file name="bug55543.phpt" role="test" />
+    <file name="bug61537.phpt" role="test" />
+    <file name="bug61978.phpt" role="test" />
+    <file name="bug62369.phpt" role="test" />
+    <file name="depth.phpt" role="test" />
+    <file name="fail001.phpt" role="test" />
+    <file name="fail001-jsonc.phpt" role="test" />
+    <file name="inf_nan_error.phpt" role="test" />
+    <file name="json_decode_basic.phpt" role="test" />
+    <file name="json_decode_error.phpt" role="test" />
+    <file name="json_encode_basic.phpt" role="test" />
+    <file name="json_encode_basic_utf8.phpt" role="test" />
+    <file name="json_encode_error.phpt" role="test" />
+    <file name="json_encode_numeric.phpt" role="test" />
+    <file name="json_encode_pretty_print.phpt" role="test" />
+    <file name="json_encode_unescaped_slashes.phpt" role="test" />
+    <file name="jsonp.phpt" role="test" />
+    <file name="pass001.1_64bit.phpt" role="test" />
+    <file name="pass001.1.phpt" role="test" />
+    <file name="pass001.phpt" role="test" />
+    <file name="pass002.phpt" role="test" />
+    <file name="pass003.phpt" role="test" />
+    <file name="serialize.phpt" role="test" />
+    <file name="unsupported_type_error.phpt" role="test" />
+   </dir> <!-- //tests -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.4.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.9.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>json</providesextension>
+ <extsrcrelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-04-01</date>
+   <license>PHP 3.01</license>
+   <notes>
+Initial release.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-10</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed non-linear and mixed type array index issues, fixed issues with escaping \\, forked json-c and added Unicode support.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-11</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed issues with object reference counts under PHP4.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-15</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed json-c string corruption issues under Mac OS X and FreeBSD.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.4</release>
+    <api>1.0.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-15</date>
+   <license>PHP 3.01</license>
+   <notes>
+Changes in 1.0.4 released with 1.0.5.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.5</release>
+    <api>1.0.5</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-06-16</date>
+   <license>PHP 3.01</license>
+   <notes>
+Changed spacing in json-c encoding, added optional assoc (boolean) parameter to json_decode to decode as associative array instead of object, fixed issues with escaping /.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.6</release>
+    <api>1.0.6</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-08-05</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed issues with exporting private and protected class members.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.7</release>
+    <api>1.0.7</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-09-07</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fixed issues with negative array keys, modified json-c to return an error on unquoted object key names instead of going into an infinite loop.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.8</release>
+    <api>1.0.8</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-12-01</date>
+   <license>PHP 3.01</license>
+   <notes>
+Changed license to LGPL, modified build system to allow static compilation into PHP, added strndup check for json-c.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-12-04</date>
+   <license>PHP 3.01</license>
+   <notes>
+Port to Win32.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-01-12</date>
+   <license>PHP 3.01</license>
+   <notes>
+Cleanup and TSRM performance fixes by rasmus.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.0</release>
+    <api>1.2.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-03-15</date>
+   <license>PHP 3.01</license>
+   <notes>
+Complete rewrite using JSON_checker as the base for the parser. Implements the JSON specification. 3-8x faster on encodes and 1.2x-4x faster on decodes.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.1</release>
+    <api>1.2.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-03-18</date>
+   <license>PHP 3.01</license>
+   <notes>
+Fix PECL bug #7147 - rework handling of comma insertion while encoding.
+Add tests to package.xml
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.0</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+    <date>2013-06-04</date>
+   <license>PHP 3.01</license>
+   <notes>
+Version 1.3.0 is Major rewrite which use the use json-c library 0.11:
+- json_decode use json-c parser
+- add JsonIncrementalParser class
+- temporarily rename as jsonc
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.1</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+    <date>2013-06-12</date>
+   <license>PHP 3.01</license>
+   <notes>
+- windows build support (thanks to weltling)
+- build as json.so or jsonc.so (--with-jsonc option)
+- rename LIBJSON_VERSION to HAVE_LIBJSON (internal only)
+- parse 64 bits integer as float, or string, on 32 bits build
+   </notes>
+  </release>
+ </changelog>
+</package>
