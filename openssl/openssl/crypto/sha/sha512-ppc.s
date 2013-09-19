@@ -1,0 +1,1390 @@
+.machine	"any"
+.text
+
+.globl	sha512_block_data_order
+.type	sha512_block_data_order,@function
+.section	".opd","aw"
+.align	3
+sha512_block_data_order:
+.quad	.sha512_block_data_order,.TOC.@tocbase,0
+.size	sha512_block_data_order,24
+.previous
+
+.align	6
+.sha512_block_data_order:
+	stdu	1,-384(1)
+	mflr	0
+	sldi	5,5,7
+
+	std	3,208(1)
+
+	std	2,224(1)
+	std	13,232(1)
+	std	14,240(1)
+	std	15,248(1)
+	std	16,256(1)
+	std	17,264(1)
+	std	18,272(1)
+	std	19,280(1)
+	std	20,288(1)
+	std	21,296(1)
+	std	22,304(1)
+	std	23,312(1)
+	std	24,320(1)
+	std	25,328(1)
+	std	26,336(1)
+	std	27,344(1)
+	std	28,352(1)
+	std	29,360(1)
+	std	30,368(1)
+	std	31,376(1)
+	std	0,400(1)
+
+	ld	8,0(3)
+	mr	31,4
+	ld	9,8(3)
+	ld	10,16(3)
+	ld	11,24(3)
+	ld	12,32(3)
+	ld	2,40(3)
+	ld	14,48(3)
+	ld	15,56(3)
+
+	bl	.LPICmeup
+.LPICedup:
+	andi.	0,31,3
+	bne	.Lunaligned
+.Laligned:
+	add	5,31,5
+	std	5,192(1)
+	std	31,200(1)
+	bl	.Lsha2_block_private
+	b	.Ldone
+
+
+
+
+
+
+
+.align	4
+.Lunaligned:
+	subfic	6,31,4096
+	andi.	6,6,3968
+	beq	.Lcross_page
+	cmpld	5,6
+	ble-	.Laligned
+	subfc	5,6,5
+	add	6,31,6
+	std	5,184(1)
+	std	6,192(1)
+	std	31,200(1)
+	bl	.Lsha2_block_private
+
+	ld	5,184(1)
+.Lcross_page:
+	li	6,32
+	mtctr	6
+	addi	20,1,48
+.Lmemcpy:
+	lbz	16,0(31)
+	lbz	17,1(31)
+	lbz	18,2(31)
+	lbz	19,3(31)
+	addi	31,31,4
+	stb	16,0(20)
+	stb	17,1(20)
+	stb	18,2(20)
+	stb	19,3(20)
+	addi	20,20,4
+	bdnz	.Lmemcpy
+
+	std	31,176(1)
+	addi	6,1,176
+	addi	31,1,48
+	std	5,184(1)
+	std	6,192(1)
+	std	31,200(1)
+	bl	.Lsha2_block_private
+	ld	31,176(1)
+	ld	5,184(1)
+	addic.	5,5,-128
+	bne-	.Lunaligned
+
+.Ldone:
+	ld	0,400(1)
+	ld	2,224(1)
+	ld	13,232(1)
+	ld	14,240(1)
+	ld	15,248(1)
+	ld	16,256(1)
+	ld	17,264(1)
+	ld	18,272(1)
+	ld	19,280(1)
+	ld	20,288(1)
+	ld	21,296(1)
+	ld	22,304(1)
+	ld	23,312(1)
+	ld	24,320(1)
+	ld	25,328(1)
+	ld	26,336(1)
+	ld	27,344(1)
+	ld	28,352(1)
+	ld	29,360(1)
+	ld	30,368(1)
+	ld	31,376(1)
+	mtlr	0
+	addi	1,1,384
+	blr	
+.long	0
+.byte	0,12,4,1,0x80,18,3,0
+.long	0
+
+.align	4
+.Lsha2_block_private:
+	lwz	5,0(31)
+	lwz	16,4(31)
+	insrdi	16,5,32,0
+	ld	0,0(7)
+	rotrdi	3,12,14
+	rotrdi	4,12,18
+	and	5,2,12
+	andc	6,14,12
+	add	0,0,15
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,16
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,8,28
+	rotrdi	4,8,34
+	and	5,8,9
+	and	6,8,10
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,9,10
+	xor	3,3,4
+	add	11,11,0
+	xor	5,5,6
+	add	15,0,3
+	add	15,15,5
+
+	lwz	5,8(31)
+	lwz	17,12(31)
+	insrdi	17,5,32,0
+	ld	0,8(7)
+	rotrdi	3,11,14
+	rotrdi	4,11,18
+	and	5,12,11
+	andc	6,2,11
+	add	0,0,14
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,17
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,15,28
+	rotrdi	4,15,34
+	and	5,15,8
+	and	6,15,9
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,8,9
+	xor	3,3,4
+	add	10,10,0
+	xor	5,5,6
+	add	14,0,3
+	add	14,14,5
+
+	lwz	5,16(31)
+	lwz	18,20(31)
+	insrdi	18,5,32,0
+	ld	0,16(7)
+	rotrdi	3,10,14
+	rotrdi	4,10,18
+	and	5,11,10
+	andc	6,12,10
+	add	0,0,2
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,18
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,14,28
+	rotrdi	4,14,34
+	and	5,14,15
+	and	6,14,8
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,15,8
+	xor	3,3,4
+	add	9,9,0
+	xor	5,5,6
+	add	2,0,3
+	add	2,2,5
+
+	lwz	5,24(31)
+	lwz	19,28(31)
+	insrdi	19,5,32,0
+	ld	0,24(7)
+	rotrdi	3,9,14
+	rotrdi	4,9,18
+	and	5,10,9
+	andc	6,11,9
+	add	0,0,12
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,19
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,2,28
+	rotrdi	4,2,34
+	and	5,2,14
+	and	6,2,15
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,14,15
+	xor	3,3,4
+	add	8,8,0
+	xor	5,5,6
+	add	12,0,3
+	add	12,12,5
+
+	lwz	5,32(31)
+	lwz	20,36(31)
+	insrdi	20,5,32,0
+	ld	0,32(7)
+	rotrdi	3,8,14
+	rotrdi	4,8,18
+	and	5,9,8
+	andc	6,10,8
+	add	0,0,11
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,20
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,12,28
+	rotrdi	4,12,34
+	and	5,12,2
+	and	6,12,14
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,2,14
+	xor	3,3,4
+	add	15,15,0
+	xor	5,5,6
+	add	11,0,3
+	add	11,11,5
+
+	lwz	5,40(31)
+	lwz	21,44(31)
+	insrdi	21,5,32,0
+	ld	0,40(7)
+	rotrdi	3,15,14
+	rotrdi	4,15,18
+	and	5,8,15
+	andc	6,9,15
+	add	0,0,10
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,21
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,11,28
+	rotrdi	4,11,34
+	and	5,11,12
+	and	6,11,2
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,12,2
+	xor	3,3,4
+	add	14,14,0
+	xor	5,5,6
+	add	10,0,3
+	add	10,10,5
+
+	lwz	5,48(31)
+	lwz	22,52(31)
+	insrdi	22,5,32,0
+	ld	0,48(7)
+	rotrdi	3,14,14
+	rotrdi	4,14,18
+	and	5,15,14
+	andc	6,8,14
+	add	0,0,9
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,22
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,10,28
+	rotrdi	4,10,34
+	and	5,10,11
+	and	6,10,12
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,11,12
+	xor	3,3,4
+	add	2,2,0
+	xor	5,5,6
+	add	9,0,3
+	add	9,9,5
+
+	lwz	5,56(31)
+	lwz	23,60(31)
+	insrdi	23,5,32,0
+	ld	0,56(7)
+	rotrdi	3,2,14
+	rotrdi	4,2,18
+	and	5,14,2
+	andc	6,15,2
+	add	0,0,8
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,23
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,9,28
+	rotrdi	4,9,34
+	and	5,9,10
+	and	6,9,11
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,10,11
+	xor	3,3,4
+	add	12,12,0
+	xor	5,5,6
+	add	8,0,3
+	add	8,8,5
+
+	lwz	5,64(31)
+	lwz	24,68(31)
+	insrdi	24,5,32,0
+	ld	0,64(7)
+	rotrdi	3,12,14
+	rotrdi	4,12,18
+	and	5,2,12
+	andc	6,14,12
+	add	0,0,15
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,24
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,8,28
+	rotrdi	4,8,34
+	and	5,8,9
+	and	6,8,10
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,9,10
+	xor	3,3,4
+	add	11,11,0
+	xor	5,5,6
+	add	15,0,3
+	add	15,15,5
+
+	lwz	5,72(31)
+	lwz	25,76(31)
+	insrdi	25,5,32,0
+	ld	0,72(7)
+	rotrdi	3,11,14
+	rotrdi	4,11,18
+	and	5,12,11
+	andc	6,2,11
+	add	0,0,14
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,25
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,15,28
+	rotrdi	4,15,34
+	and	5,15,8
+	and	6,15,9
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,8,9
+	xor	3,3,4
+	add	10,10,0
+	xor	5,5,6
+	add	14,0,3
+	add	14,14,5
+
+	lwz	5,80(31)
+	lwz	26,84(31)
+	insrdi	26,5,32,0
+	ld	0,80(7)
+	rotrdi	3,10,14
+	rotrdi	4,10,18
+	and	5,11,10
+	andc	6,12,10
+	add	0,0,2
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,26
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,14,28
+	rotrdi	4,14,34
+	and	5,14,15
+	and	6,14,8
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,15,8
+	xor	3,3,4
+	add	9,9,0
+	xor	5,5,6
+	add	2,0,3
+	add	2,2,5
+
+	lwz	5,88(31)
+	lwz	27,92(31)
+	insrdi	27,5,32,0
+	ld	0,88(7)
+	rotrdi	3,9,14
+	rotrdi	4,9,18
+	and	5,10,9
+	andc	6,11,9
+	add	0,0,12
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,27
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,2,28
+	rotrdi	4,2,34
+	and	5,2,14
+	and	6,2,15
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,14,15
+	xor	3,3,4
+	add	8,8,0
+	xor	5,5,6
+	add	12,0,3
+	add	12,12,5
+
+	lwz	5,96(31)
+	lwz	28,100(31)
+	insrdi	28,5,32,0
+	ld	0,96(7)
+	rotrdi	3,8,14
+	rotrdi	4,8,18
+	and	5,9,8
+	andc	6,10,8
+	add	0,0,11
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,28
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,12,28
+	rotrdi	4,12,34
+	and	5,12,2
+	and	6,12,14
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,2,14
+	xor	3,3,4
+	add	15,15,0
+	xor	5,5,6
+	add	11,0,3
+	add	11,11,5
+
+	lwz	5,104(31)
+	lwz	29,108(31)
+	insrdi	29,5,32,0
+	ld	0,104(7)
+	rotrdi	3,15,14
+	rotrdi	4,15,18
+	and	5,8,15
+	andc	6,9,15
+	add	0,0,10
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,29
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,11,28
+	rotrdi	4,11,34
+	and	5,11,12
+	and	6,11,2
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,12,2
+	xor	3,3,4
+	add	14,14,0
+	xor	5,5,6
+	add	10,0,3
+	add	10,10,5
+
+	lwz	5,112(31)
+	lwz	30,116(31)
+	insrdi	30,5,32,0
+	ld	0,112(7)
+	rotrdi	3,14,14
+	rotrdi	4,14,18
+	and	5,15,14
+	andc	6,8,14
+	add	0,0,9
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,30
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,10,28
+	rotrdi	4,10,34
+	and	5,10,11
+	and	6,10,12
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,11,12
+	xor	3,3,4
+	add	2,2,0
+	xor	5,5,6
+	add	9,0,3
+	add	9,9,5
+
+	lwz	5,120(31)
+	lwz	31,124(31)
+	insrdi	31,5,32,0
+	ld	0,120(7)
+	rotrdi	3,2,14
+	rotrdi	4,2,18
+	and	5,14,2
+	andc	6,15,2
+	add	0,0,8
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,31
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,9,28
+	rotrdi	4,9,34
+	and	5,9,10
+	and	6,9,11
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,10,11
+	xor	3,3,4
+	add	12,12,0
+	xor	5,5,6
+	add	8,0,3
+	add	8,8,5
+
+	li	0,4
+	mtctr	0
+.align	4
+.Lrounds:
+	addi	7,7,128
+	rotrdi	3,17,1
+	rotrdi	4,17,8
+	rotrdi	5,30,19
+	rotrdi	6,30,61
+	xor	3,3,4
+	srdi	4,17,7
+	xor	5,5,6
+	srdi	6,30,6
+	add	16,16,25
+	xor	3,3,4
+	xor	5,5,6
+	add	16,16,3
+	add	16,16,5
+	ld	0,0(7)
+	rotrdi	3,12,14
+	rotrdi	4,12,18
+	and	5,2,12
+	andc	6,14,12
+	add	0,0,15
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,16
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,8,28
+	rotrdi	4,8,34
+	and	5,8,9
+	and	6,8,10
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,9,10
+	xor	3,3,4
+	add	11,11,0
+	xor	5,5,6
+	add	15,0,3
+	add	15,15,5
+
+	rotrdi	3,18,1
+	rotrdi	4,18,8
+	rotrdi	5,31,19
+	rotrdi	6,31,61
+	xor	3,3,4
+	srdi	4,18,7
+	xor	5,5,6
+	srdi	6,31,6
+	add	17,17,26
+	xor	3,3,4
+	xor	5,5,6
+	add	17,17,3
+	add	17,17,5
+	ld	0,8(7)
+	rotrdi	3,11,14
+	rotrdi	4,11,18
+	and	5,12,11
+	andc	6,2,11
+	add	0,0,14
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,17
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,15,28
+	rotrdi	4,15,34
+	and	5,15,8
+	and	6,15,9
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,8,9
+	xor	3,3,4
+	add	10,10,0
+	xor	5,5,6
+	add	14,0,3
+	add	14,14,5
+
+	rotrdi	3,19,1
+	rotrdi	4,19,8
+	rotrdi	5,16,19
+	rotrdi	6,16,61
+	xor	3,3,4
+	srdi	4,19,7
+	xor	5,5,6
+	srdi	6,16,6
+	add	18,18,27
+	xor	3,3,4
+	xor	5,5,6
+	add	18,18,3
+	add	18,18,5
+	ld	0,16(7)
+	rotrdi	3,10,14
+	rotrdi	4,10,18
+	and	5,11,10
+	andc	6,12,10
+	add	0,0,2
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,18
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,14,28
+	rotrdi	4,14,34
+	and	5,14,15
+	and	6,14,8
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,15,8
+	xor	3,3,4
+	add	9,9,0
+	xor	5,5,6
+	add	2,0,3
+	add	2,2,5
+
+	rotrdi	3,20,1
+	rotrdi	4,20,8
+	rotrdi	5,17,19
+	rotrdi	6,17,61
+	xor	3,3,4
+	srdi	4,20,7
+	xor	5,5,6
+	srdi	6,17,6
+	add	19,19,28
+	xor	3,3,4
+	xor	5,5,6
+	add	19,19,3
+	add	19,19,5
+	ld	0,24(7)
+	rotrdi	3,9,14
+	rotrdi	4,9,18
+	and	5,10,9
+	andc	6,11,9
+	add	0,0,12
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,19
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,2,28
+	rotrdi	4,2,34
+	and	5,2,14
+	and	6,2,15
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,14,15
+	xor	3,3,4
+	add	8,8,0
+	xor	5,5,6
+	add	12,0,3
+	add	12,12,5
+
+	rotrdi	3,21,1
+	rotrdi	4,21,8
+	rotrdi	5,18,19
+	rotrdi	6,18,61
+	xor	3,3,4
+	srdi	4,21,7
+	xor	5,5,6
+	srdi	6,18,6
+	add	20,20,29
+	xor	3,3,4
+	xor	5,5,6
+	add	20,20,3
+	add	20,20,5
+	ld	0,32(7)
+	rotrdi	3,8,14
+	rotrdi	4,8,18
+	and	5,9,8
+	andc	6,10,8
+	add	0,0,11
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,20
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,12,28
+	rotrdi	4,12,34
+	and	5,12,2
+	and	6,12,14
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,2,14
+	xor	3,3,4
+	add	15,15,0
+	xor	5,5,6
+	add	11,0,3
+	add	11,11,5
+
+	rotrdi	3,22,1
+	rotrdi	4,22,8
+	rotrdi	5,19,19
+	rotrdi	6,19,61
+	xor	3,3,4
+	srdi	4,22,7
+	xor	5,5,6
+	srdi	6,19,6
+	add	21,21,30
+	xor	3,3,4
+	xor	5,5,6
+	add	21,21,3
+	add	21,21,5
+	ld	0,40(7)
+	rotrdi	3,15,14
+	rotrdi	4,15,18
+	and	5,8,15
+	andc	6,9,15
+	add	0,0,10
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,21
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,11,28
+	rotrdi	4,11,34
+	and	5,11,12
+	and	6,11,2
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,12,2
+	xor	3,3,4
+	add	14,14,0
+	xor	5,5,6
+	add	10,0,3
+	add	10,10,5
+
+	rotrdi	3,23,1
+	rotrdi	4,23,8
+	rotrdi	5,20,19
+	rotrdi	6,20,61
+	xor	3,3,4
+	srdi	4,23,7
+	xor	5,5,6
+	srdi	6,20,6
+	add	22,22,31
+	xor	3,3,4
+	xor	5,5,6
+	add	22,22,3
+	add	22,22,5
+	ld	0,48(7)
+	rotrdi	3,14,14
+	rotrdi	4,14,18
+	and	5,15,14
+	andc	6,8,14
+	add	0,0,9
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,22
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,10,28
+	rotrdi	4,10,34
+	and	5,10,11
+	and	6,10,12
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,11,12
+	xor	3,3,4
+	add	2,2,0
+	xor	5,5,6
+	add	9,0,3
+	add	9,9,5
+
+	rotrdi	3,24,1
+	rotrdi	4,24,8
+	rotrdi	5,21,19
+	rotrdi	6,21,61
+	xor	3,3,4
+	srdi	4,24,7
+	xor	5,5,6
+	srdi	6,21,6
+	add	23,23,16
+	xor	3,3,4
+	xor	5,5,6
+	add	23,23,3
+	add	23,23,5
+	ld	0,56(7)
+	rotrdi	3,2,14
+	rotrdi	4,2,18
+	and	5,14,2
+	andc	6,15,2
+	add	0,0,8
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,23
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,9,28
+	rotrdi	4,9,34
+	and	5,9,10
+	and	6,9,11
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,10,11
+	xor	3,3,4
+	add	12,12,0
+	xor	5,5,6
+	add	8,0,3
+	add	8,8,5
+
+	rotrdi	3,25,1
+	rotrdi	4,25,8
+	rotrdi	5,22,19
+	rotrdi	6,22,61
+	xor	3,3,4
+	srdi	4,25,7
+	xor	5,5,6
+	srdi	6,22,6
+	add	24,24,17
+	xor	3,3,4
+	xor	5,5,6
+	add	24,24,3
+	add	24,24,5
+	ld	0,64(7)
+	rotrdi	3,12,14
+	rotrdi	4,12,18
+	and	5,2,12
+	andc	6,14,12
+	add	0,0,15
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,24
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,8,28
+	rotrdi	4,8,34
+	and	5,8,9
+	and	6,8,10
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,9,10
+	xor	3,3,4
+	add	11,11,0
+	xor	5,5,6
+	add	15,0,3
+	add	15,15,5
+
+	rotrdi	3,26,1
+	rotrdi	4,26,8
+	rotrdi	5,23,19
+	rotrdi	6,23,61
+	xor	3,3,4
+	srdi	4,26,7
+	xor	5,5,6
+	srdi	6,23,6
+	add	25,25,18
+	xor	3,3,4
+	xor	5,5,6
+	add	25,25,3
+	add	25,25,5
+	ld	0,72(7)
+	rotrdi	3,11,14
+	rotrdi	4,11,18
+	and	5,12,11
+	andc	6,2,11
+	add	0,0,14
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,25
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,15,28
+	rotrdi	4,15,34
+	and	5,15,8
+	and	6,15,9
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,8,9
+	xor	3,3,4
+	add	10,10,0
+	xor	5,5,6
+	add	14,0,3
+	add	14,14,5
+
+	rotrdi	3,27,1
+	rotrdi	4,27,8
+	rotrdi	5,24,19
+	rotrdi	6,24,61
+	xor	3,3,4
+	srdi	4,27,7
+	xor	5,5,6
+	srdi	6,24,6
+	add	26,26,19
+	xor	3,3,4
+	xor	5,5,6
+	add	26,26,3
+	add	26,26,5
+	ld	0,80(7)
+	rotrdi	3,10,14
+	rotrdi	4,10,18
+	and	5,11,10
+	andc	6,12,10
+	add	0,0,2
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,26
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,14,28
+	rotrdi	4,14,34
+	and	5,14,15
+	and	6,14,8
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,15,8
+	xor	3,3,4
+	add	9,9,0
+	xor	5,5,6
+	add	2,0,3
+	add	2,2,5
+
+	rotrdi	3,28,1
+	rotrdi	4,28,8
+	rotrdi	5,25,19
+	rotrdi	6,25,61
+	xor	3,3,4
+	srdi	4,28,7
+	xor	5,5,6
+	srdi	6,25,6
+	add	27,27,20
+	xor	3,3,4
+	xor	5,5,6
+	add	27,27,3
+	add	27,27,5
+	ld	0,88(7)
+	rotrdi	3,9,14
+	rotrdi	4,9,18
+	and	5,10,9
+	andc	6,11,9
+	add	0,0,12
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,27
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,2,28
+	rotrdi	4,2,34
+	and	5,2,14
+	and	6,2,15
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,14,15
+	xor	3,3,4
+	add	8,8,0
+	xor	5,5,6
+	add	12,0,3
+	add	12,12,5
+
+	rotrdi	3,29,1
+	rotrdi	4,29,8
+	rotrdi	5,26,19
+	rotrdi	6,26,61
+	xor	3,3,4
+	srdi	4,29,7
+	xor	5,5,6
+	srdi	6,26,6
+	add	28,28,21
+	xor	3,3,4
+	xor	5,5,6
+	add	28,28,3
+	add	28,28,5
+	ld	0,96(7)
+	rotrdi	3,8,14
+	rotrdi	4,8,18
+	and	5,9,8
+	andc	6,10,8
+	add	0,0,11
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,28
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,12,28
+	rotrdi	4,12,34
+	and	5,12,2
+	and	6,12,14
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,2,14
+	xor	3,3,4
+	add	15,15,0
+	xor	5,5,6
+	add	11,0,3
+	add	11,11,5
+
+	rotrdi	3,30,1
+	rotrdi	4,30,8
+	rotrdi	5,27,19
+	rotrdi	6,27,61
+	xor	3,3,4
+	srdi	4,30,7
+	xor	5,5,6
+	srdi	6,27,6
+	add	29,29,22
+	xor	3,3,4
+	xor	5,5,6
+	add	29,29,3
+	add	29,29,5
+	ld	0,104(7)
+	rotrdi	3,15,14
+	rotrdi	4,15,18
+	and	5,8,15
+	andc	6,9,15
+	add	0,0,10
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,29
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,11,28
+	rotrdi	4,11,34
+	and	5,11,12
+	and	6,11,2
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,12,2
+	xor	3,3,4
+	add	14,14,0
+	xor	5,5,6
+	add	10,0,3
+	add	10,10,5
+
+	rotrdi	3,31,1
+	rotrdi	4,31,8
+	rotrdi	5,28,19
+	rotrdi	6,28,61
+	xor	3,3,4
+	srdi	4,31,7
+	xor	5,5,6
+	srdi	6,28,6
+	add	30,30,23
+	xor	3,3,4
+	xor	5,5,6
+	add	30,30,3
+	add	30,30,5
+	ld	0,112(7)
+	rotrdi	3,14,14
+	rotrdi	4,14,18
+	and	5,15,14
+	andc	6,8,14
+	add	0,0,9
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,30
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,10,28
+	rotrdi	4,10,34
+	and	5,10,11
+	and	6,10,12
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,11,12
+	xor	3,3,4
+	add	2,2,0
+	xor	5,5,6
+	add	9,0,3
+	add	9,9,5
+
+	rotrdi	3,16,1
+	rotrdi	4,16,8
+	rotrdi	5,29,19
+	rotrdi	6,29,61
+	xor	3,3,4
+	srdi	4,16,7
+	xor	5,5,6
+	srdi	6,29,6
+	add	31,31,24
+	xor	3,3,4
+	xor	5,5,6
+	add	31,31,3
+	add	31,31,5
+	ld	0,120(7)
+	rotrdi	3,2,14
+	rotrdi	4,2,18
+	and	5,14,2
+	andc	6,15,2
+	add	0,0,8
+	xor	3,3,4
+	rotrdi	4,4,23
+	or	5,5,6
+	add	0,0,31
+	xor	3,3,4
+	add	0,0,5
+	add	0,0,3
+
+	rotrdi	3,9,28
+	rotrdi	4,9,34
+	and	5,9,10
+	and	6,9,11
+	xor	3,3,4
+	rotrdi	4,4,5
+	xor	5,5,6
+	and	6,10,11
+	xor	3,3,4
+	add	12,12,0
+	xor	5,5,6
+	add	8,0,3
+	add	8,8,5
+
+	bdnz-	.Lrounds
+
+	ld	3,208(1)
+	ld	31,200(1)
+	ld	5,192(1)
+	subi	7,7,512
+
+	ld	16,0(3)
+	ld	17,8(3)
+	ld	18,16(3)
+	ld	19,24(3)
+	ld	20,32(3)
+	ld	21,40(3)
+	ld	22,48(3)
+	addi	31,31,128
+	ld	23,56(3)
+	add	8,8,16
+	add	9,9,17
+	std	31,200(1)
+	add	10,10,18
+	std	8,0(3)
+	add	11,11,19
+	std	9,8(3)
+	add	12,12,20
+	std	10,16(3)
+	add	2,2,21
+	std	11,24(3)
+	add	14,14,22
+	std	12,32(3)
+	add	15,15,23
+	std	2,40(3)
+	std	14,48(3)
+	cmpld	31,5
+	std	15,56(3)
+	bne	.Lsha2_block_private
+	blr	
+.long	0
+.byte	0,12,0x14,0,0,0,0,0
+.align	6
+.LPICmeup:
+	mflr	0
+	bcl	20,31,$+4
+	mflr	7
+	addi	7,7,56
+	mtlr	0
+	blr	
+.long	0
+.byte	0,12,0x14,0,0,0,0,0
+.space	28
+.long	0x428a2f98,0xd728ae22,0x71374491,0x23ef65cd
+.long	0xb5c0fbcf,0xec4d3b2f,0xe9b5dba5,0x8189dbbc
+.long	0x3956c25b,0xf348b538,0x59f111f1,0xb605d019
+.long	0x923f82a4,0xaf194f9b,0xab1c5ed5,0xda6d8118
+.long	0xd807aa98,0xa3030242,0x12835b01,0x45706fbe
+.long	0x243185be,0x4ee4b28c,0x550c7dc3,0xd5ffb4e2
+.long	0x72be5d74,0xf27b896f,0x80deb1fe,0x3b1696b1
+.long	0x9bdc06a7,0x25c71235,0xc19bf174,0xcf692694
+.long	0xe49b69c1,0x9ef14ad2,0xefbe4786,0x384f25e3
+.long	0x0fc19dc6,0x8b8cd5b5,0x240ca1cc,0x77ac9c65
+.long	0x2de92c6f,0x592b0275,0x4a7484aa,0x6ea6e483
+.long	0x5cb0a9dc,0xbd41fbd4,0x76f988da,0x831153b5
+.long	0x983e5152,0xee66dfab,0xa831c66d,0x2db43210
+.long	0xb00327c8,0x98fb213f,0xbf597fc7,0xbeef0ee4
+.long	0xc6e00bf3,0x3da88fc2,0xd5a79147,0x930aa725
+.long	0x06ca6351,0xe003826f,0x14292967,0x0a0e6e70
+.long	0x27b70a85,0x46d22ffc,0x2e1b2138,0x5c26c926
+.long	0x4d2c6dfc,0x5ac42aed,0x53380d13,0x9d95b3df
+.long	0x650a7354,0x8baf63de,0x766a0abb,0x3c77b2a8
+.long	0x81c2c92e,0x47edaee6,0x92722c85,0x1482353b
+.long	0xa2bfe8a1,0x4cf10364,0xa81a664b,0xbc423001
+.long	0xc24b8b70,0xd0f89791,0xc76c51a3,0x0654be30
+.long	0xd192e819,0xd6ef5218,0xd6990624,0x5565a910
+.long	0xf40e3585,0x5771202a,0x106aa070,0x32bbd1b8
+.long	0x19a4c116,0xb8d2d0c8,0x1e376c08,0x5141ab53
+.long	0x2748774c,0xdf8eeb99,0x34b0bcb5,0xe19b48a8
+.long	0x391c0cb3,0xc5c95a63,0x4ed8aa4a,0xe3418acb
+.long	0x5b9cca4f,0x7763e373,0x682e6ff3,0xd6b2b8a3
+.long	0x748f82ee,0x5defb2fc,0x78a5636f,0x43172f60
+.long	0x84c87814,0xa1f0ab72,0x8cc70208,0x1a6439ec
+.long	0x90befffa,0x23631e28,0xa4506ceb,0xde82bde9
+.long	0xbef9a3f7,0xb2c67915,0xc67178f2,0xe372532b
+.long	0xca273ece,0xea26619c,0xd186b8c7,0x21c0c207
+.long	0xeada7dd6,0xcde0eb1e,0xf57d4f7f,0xee6ed178
+.long	0x06f067aa,0x72176fba,0x0a637dc5,0xa2c898a6
+.long	0x113f9804,0xbef90dae,0x1b710b35,0x131c471b
+.long	0x28db77f5,0x23047d84,0x32caab7b,0x40c72493
+.long	0x3c9ebe0a,0x15c9bebc,0x431d67c4,0x9c100d4c
+.long	0x4cc5d4be,0xcb3e42b6,0x597f299c,0xfc657e2a
+.long	0x5fcb6fab,0x3ad6faec,0x6c44198c,0x4a475817

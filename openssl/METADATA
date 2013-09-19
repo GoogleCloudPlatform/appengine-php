@@ -1,0 +1,5 @@
+# https://cs.corp.google.com/#google3/devtools/metadata/presubmit.proto
+
+presubmit: {
+  include_presubmit: "//depot/google3/net/httpsconnection/METADATA"
+}
